@@ -6,7 +6,11 @@ var uiController = (function() {
     inputValue: ".add__value",
     addbtn: ".add__btn",
     incomeList: ".income__list",
-    expensesList: ".expenses__list"
+    expensesList: ".expenses__list",
+    tusuvLabel: ".budget__value",
+    incomeLabel: ".budget__income--value",
+    expenseLable: ".budget__expenses--value",
+    percentageLable: ".budget__expenses--percentage"
   };
   return {
     getInput: function() {
@@ -15,6 +19,9 @@ var uiController = (function() {
         description: document.querySelector(DOMstrings.inputDescription).value,
         value: parseInt(document.querySelector(DOMstrings.inputValue).value)
       };
+    },
+    getDOMstring: function() {
+      return DOMstrings;
     },
     clearFields: function() {
       var fields = document.querySelectorAll(
@@ -31,8 +38,19 @@ var uiController = (function() {
       //   fieldsArr[i].value = "";
       // }
     },
-    getDOMstring: function() {
-      return DOMstrings;
+    tusuviigzUzuuleh: function(tusuv) {
+      document.querySelector(DOMstrings.tusuvLabel).textContent = tusuv.tusuv;
+      document.querySelector(DOMstrings.incomeLabel).textContent =
+        tusuv.totalInc;
+      document.querySelector(DOMstrings.expenseLable).textContent =
+        tusuv.totalExp;
+      if (tusuv.huvi !== 0) {
+        document.querySelector(DOMstrings.percentageLable).textContent =
+          tusuv.huvi + "%";
+      } else {
+        document.querySelector(DOMstrings.percentageLable).textContent =
+          tusuv.huvi;
+      }
     },
     addListItem: function(item, type) {
       //Income Expense iin elemtiig aguulsan HTML iig beltgen
@@ -106,7 +124,7 @@ var finianceController = (function() {
         tusuv: data.tusuv,
         huvi: data.huvi,
         totalInc: data.totals.inc,
-        toalExp: data.totals.exp
+        totalExp: data.totals.exp
       };
     },
     addItem: function(type, desc, val) {
@@ -154,7 +172,7 @@ var appController = (function(uiController, finianceController) {
       var tusuv = finianceController.tusuviigAvah();
 
       //Tootsoog delgetsend gargana.
-      console.log(tusuv);
+      uiController.tusuviigzUzuuleh(tusuv);
     }
   };
   var setupEventListeners = function() {
@@ -172,6 +190,12 @@ var appController = (function(uiController, finianceController) {
   return {
     init: function() {
       console.log("Application started...");
+      uiController.tusuviigzUzuuleh({
+        tusuv: 0,
+        huvi: 0,
+        totalInc: 0,
+        totalExp: 0
+      });
       setupEventListeners();
     }
   };
